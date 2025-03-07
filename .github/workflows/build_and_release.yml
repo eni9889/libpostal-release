@@ -37,23 +37,11 @@ jobs:
             /usr/local/include/libpostal* \
             /usr/local/share/libpostal || { echo "Tar creation failed"; exit 1; }
 
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release and Upload Asset
+        uses: elgohr/github-release-action@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./libpostal-prebuilt.tar.gz
-          asset_name: libpostal-prebuilt.tar.gz
-          asset_content_type: application/gzip
+          tag: ${{ github.ref }}
+          name: Release ${{ github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: libpostal-prebuilt.tar.gz
+          title: Release ${{ github.ref }}
