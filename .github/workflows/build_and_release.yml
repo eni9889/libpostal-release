@@ -17,12 +17,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y autoconf automake libtool pkg-config curl git build-essential
 
-      - name: Clone, Build, and Install libpostal
+      - name: Clone and build libpostal
         run: |
-          # Pre-create the data directory with proper permissions
+          # Pre-create the directory with proper permissions so the download step can succeed
           sudo mkdir -p /usr/local/share/libpostal
           sudo chown $(whoami):$(whoami) /usr/local/share/libpostal
-          # Clone libpostal repository and build it
           git clone https://github.com/openvenues/libpostal.git
           cd libpostal
           ./bootstrap.sh
@@ -30,12 +29,11 @@ jobs:
           make -j$(nproc)
           sudo make install
           sudo ldconfig
-          # Download libpostal data with sudo so it can create files in /usr/local/share/libpostal
-          sudo ./libpostal_data download all /usr/local/share/libpostal
 
       - name: Create tarball of installed libpostal
         run: |
-          # Package the installed libraries, headers, and data into a tarball.
+          # Adjust the paths below based on where libpostal installed its files.
+          # For example, this tarball includes libraries, headers, and data.
           tar -czvf libpostal-prebuilt.tar.gz \
             /usr/local/lib \
             /usr/local/include \
