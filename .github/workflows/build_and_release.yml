@@ -32,11 +32,9 @@ jobs:
 
       - name: Create tarball of installed libpostal
         run: |
-          # Adjust the paths below based on where libpostal installed its files.
-          # For example, this tarball includes libraries, headers, and data.
           tar -czvf libpostal-prebuilt.tar.gz \
-            /usr/local/lib \
-            /usr/local/include \
+            /usr/local/lib/libpostal* \
+            /usr/local/include/libpostal* \
             /usr/local/share/libpostal || { echo "Tar creation failed"; exit 1; }
 
       - name: Create GitHub Release
