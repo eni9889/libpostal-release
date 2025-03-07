@@ -41,7 +41,4 @@ jobs:
         uses: elgohr/github-release-action@v5
         with:
           tag: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          files: libpostal-prebuilt.tar.gz
           title: Release ${{ github.ref }}
